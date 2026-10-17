@@ -36,6 +36,31 @@ const QUESTIONS = [
     ],
     answer: 1,
   },
+  {
+    question: "Which command downloads changes from a remote repository without merging them?",
+    options: ["git push", "git fetch", "git commit", "git init"],
+    answer: 1,
+  },
+  {
+    question: "What is a GitHub Actions workflow used for?",
+    options: [
+      "Automating tasks such as building and testing code",
+      "Changing a repository's owner",
+      "Writing commit messages automatically in every editor",
+      "Replacing Git branches",
+    ],
+    answer: 0,
+  },
+  {
+    question: "What does a merge conflict mean in Git?",
+    options: [
+      "A branch has been deleted",
+      "Git cannot automatically reconcile competing changes",
+      "A commit was pushed successfully",
+      "The repository has no remote",
+    ],
+    answer: 1,
+  },
 ];
 
 // Lets Node.js tests load this file. Browsers ignore this block.

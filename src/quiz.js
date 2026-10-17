@@ -40,7 +40,17 @@ function getGrade(percentage) {
   return "Keep practicing";
 }
 
+/**
+ * Returns an encouraging message for a quiz grade.
+ */
+function getFeedbackMessage(grade) {
+  if (grade === "A") return "Excellent work! You really know your stuff!";
+  if (grade === "B") return "Great job! You're building strong skills!";
+  if (grade === "C") return "Nice effort! Keep learning and you'll get there!";
+  return "Every expert starts somewhere. Keep practicing!";
+}
+
 // Lets Node.js tests load this file. Browsers ignore this block.
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { shuffle, isCorrect, calculatePercentage, getGrade };
+  module.exports = { shuffle, isCorrect, calculatePercentage, getGrade, getFeedbackMessage };
 }

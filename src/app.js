@@ -12,6 +12,7 @@ const feedbackText = document.getElementById("feedback");
 const nextButton = document.getElementById("next-btn");
 const scoreText = document.getElementById("score-text");
 const gradeText = document.getElementById("grade-text");
+const feedbackMessageText = document.getElementById("feedback-message");
 
 function showScreen(screenToShow) {
   [startScreen, quizScreen, resultScreen].forEach((screen) => {
@@ -77,8 +78,10 @@ function nextQuestion() {
 function showResults() {
   const total = state.questions.length;
   const percentage = calculatePercentage(state.score, total);
+  const grade = getGrade(percentage);
   scoreText.textContent = `You scored ${state.score} out of ${total} (${percentage}%)`;
-  gradeText.textContent = `Grade: ${getGrade(percentage)}`;
+  gradeText.textContent = `Grade: ${grade}`;
+  feedbackMessageText.textContent = getFeedbackMessage(grade);
   showScreen(resultScreen);
 }
 
