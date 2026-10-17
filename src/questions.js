@@ -52,6 +52,21 @@ const QUESTIONS = [
     answer: 0,
   },
   {
+    question: "Which directory stores GitHub Actions workflow files?",
+    options: [".github/workflows/", ".github/actions/", "workflows/.github/", "actions/workflows/"],
+    answer: 0,
+  },
+  {
+    question: "Which event name triggers a workflow when code is pushed?",
+    options: ["cron", "pull_request", "push", "workflow_dispatch"],
+    answer: 2,
+  },
+  {
+    question: "Which workflow key makes one job wait for another job?",
+    options: ["runs-on", "uses", "requires", "needs"],
+    answer: 3,
+  },
+  {
     question: "What does a merge conflict mean in Git?",
     options: [
       "A branch has been deleted",
