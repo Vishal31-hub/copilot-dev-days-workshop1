@@ -1,6 +1,6 @@
 // UI code: connects the quiz logic (quiz.js) to the page (index.html).
 
-const state = { questions: [], current: 0, score: 0 };
+let state = createQuiz([]);
 const QUESTION_TIME_SECONDS = 15;
 let timerInterval = null;
 let timerDeadline = 0;
@@ -27,9 +27,7 @@ function showScreen(screenToShow) {
 
 function startQuiz() {
   stopTimer();
-  state.questions = shuffle(QUESTIONS);
-  state.current = 0;
-  state.score = 0;
+  state = createQuiz(shuffle(QUESTIONS));
   showScreen(quizScreen);
   renderQuestion();
 }
@@ -73,14 +71,17 @@ function completeQuestion(selectedIndex, selectedButton, timedOut = false) {
   if (timedOut) {
     buttons[question.answer].classList.add("correct");
     feedbackText.textContent = "Time's up!";
-  } else if (isCorrect(question, selectedIndex)) {
-    state.score++;
-    selectedButton.classList.add("correct");
-    feedbackText.textContent = "Correct!";
   } else {
-    selectedButton.classList.add("wrong");
-    buttons[question.answer].classList.add("correct");
-    feedbackText.textContent = "Not quite. The correct answer is highlighted.";
+    const result = answerQuestion(state, selectedIndex);
+    state = result.state;
+    if (result.correct) {
+      selectedButton.classList.add("correct");
+      feedbackText.textContent = "Correct!";
+    } else {
+      selectedButton.classList.add("wrong");
+      buttons[question.answer].classList.add("correct");
+      feedbackText.textContent = "Not quite. The correct answer is highlighted.";
+    }
   }
 
   nextButton.hidden = false;
@@ -113,11 +114,11 @@ function updateTimer() {
 
 function nextQuestion() {
   stopTimer();
-  state.current++;
-  if (state.current < state.questions.length) {
-    renderQuestion();
-  } else {
+  state = advanceQuestion(state);
+  if (isQuizFinished(state)) {
     showResults();
+  } else {
+    renderQuestion();
   }
 }
 

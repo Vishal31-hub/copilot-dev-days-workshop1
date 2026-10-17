@@ -2,7 +2,73 @@
 // Run them with:  npm test
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { shuffle, isCorrect, calculatePercentage, getGrade, formatTimeLeft } = require("../src/quiz.js");
+const {
+  shuffle,
+  isCorrect,
+  createQuiz,
+  answerQuestion,
+  advanceQuestion,
+  isQuizFinished,
+  calculatePercentage,
+  getGrade,
+  formatTimeLeft,
+} = require("../src/quiz.js");
+
+test("createQuiz starts with a new state for the provided questions", () => {
+  const questions = [{ answer: 1 }];
+  const state = createQuiz(questions);
+
+  assert.deepEqual(state, { questions, current: 0, score: 0 });
+  assert.notEqual(state, questions);
+  assert.notEqual(state.questions, questions);
+});
+
+test("createQuiz creates a finished state for no questions", () => {
+  assert.equal(isQuizFinished(createQuiz([])), true);
+});
+
+test("answerQuestion increments the score for a correct answer without mutating state", () => {
+  const state = createQuiz([{ answer: 1 }]);
+  const result = answerQuestion(state, 1);
+
+  assert.equal(result.correct, true);
+  assert.deepEqual(result.state, { ...state, score: 1 });
+  assert.notEqual(result.state, state);
+  assert.deepEqual(state, { questions: [{ answer: 1 }], current: 0, score: 0 });
+});
+
+test("answerQuestion keeps the score for an incorrect answer", () => {
+  const state = createQuiz([{ answer: 1 }]);
+  const result = answerQuestion(state, 0);
+
+  assert.equal(result.correct, false);
+  assert.deepEqual(result.state, state);
+  assert.notEqual(result.state, state);
+});
+
+test("answerQuestion treats a null selection as incorrect", () => {
+  const state = createQuiz([{ answer: 1 }]);
+  const result = answerQuestion(state, null);
+
+  assert.equal(result.correct, false);
+  assert.equal(result.state.score, 0);
+});
+
+test("advanceQuestion returns a new state with the next index", () => {
+  const state = createQuiz([{ answer: 0 }, { answer: 1 }]);
+  const nextState = advanceQuestion(state);
+
+  assert.equal(nextState.current, 1);
+  assert.equal(state.current, 0);
+  assert.notEqual(nextState, state);
+});
+
+test("isQuizFinished detects the last question boundary", () => {
+  const state = { questions: [{}, {}], current: 2, score: 0 };
+
+  assert.equal(isQuizFinished({ ...state, current: 1 }), false);
+  assert.equal(isQuizFinished(state), true);
+});
 
 test("isCorrect returns true for the right answer", () => {
   assert.equal(isCorrect({ answer: 2 }, 2), true);
