@@ -1,4 +1,5 @@
-# 🚀 GitHub Copilot Dev Days: Hands-on Workshop
+   ![Tests](https://github.com/Vishal31-hub/copilot-dev-days-workshop1/actions/workflows/test.yml/badge.svg)
+   # 🚀 GitHub Copilot Dev Days: Hands-on Workshop
 
 **10:45 – 13:30 IST · Intermediate · 10 chapters + bonus · Works on GitHub Copilot Free**
 
