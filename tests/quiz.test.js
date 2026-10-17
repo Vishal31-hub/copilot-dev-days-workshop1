@@ -2,7 +2,7 @@
 // Run them with:  npm test
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { shuffle, isCorrect, calculatePercentage, getGrade } = require("../src/quiz.js");
+const { shuffle, isCorrect, calculatePercentage, getGrade, formatTimeLeft } = require("../src/quiz.js");
 
 test("isCorrect returns true for the right answer", () => {
   assert.equal(isCorrect({ answer: 2 }, 2), true);
@@ -29,4 +29,36 @@ test("shuffle keeps every item and does not change the original array", () => {
 
 test("getGrade gives an A for exactly 90%", () => {
   assert.equal(getGrade(90), "A");
+});
+
+test("formatTimeLeft includes the remaining seconds", () => {
+  assert.equal(formatTimeLeft(12), "⏱ 12s");
+});
+
+test("formatTimeLeft preserves the urgent threshold value", () => {
+  assert.equal(formatTimeLeft(5), "⏱ 5s");
+});
+
+test("formatTimeLeft displays zero seconds", () => {
+  assert.equal(formatTimeLeft(0), "⏱ 0s");
+});
+
+test("formatTimeLeft floors fractional seconds", () => {
+  assert.equal(formatTimeLeft(4.9), "⏱ 4s");
+});
+
+test("formatTimeLeft clamps negative seconds to zero", () => {
+  assert.equal(formatTimeLeft(-1), "⏱ 0s");
+});
+
+test("formatTimeLeft uses zero for null input", () => {
+  assert.equal(formatTimeLeft(null), "⏱ 0s");
+});
+
+test("formatTimeLeft uses zero for non-numeric input", () => {
+  assert.equal(formatTimeLeft("12"), "⏱ 0s");
+});
+
+test("formatTimeLeft uses zero for non-finite input", () => {
+  assert.equal(formatTimeLeft(Number.NaN), "⏱ 0s");
 });

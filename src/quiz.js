@@ -50,7 +50,17 @@ function getFeedbackMessage(grade) {
   return "Every expert starts somewhere. Keep practicing!";
 }
 
+/**
+ * Formats the remaining quiz time for display.
+ */
+function formatTimeLeft(seconds) {
+  const safeSeconds = typeof seconds === "number" && Number.isFinite(seconds)
+    ? Math.max(0, Math.floor(seconds))
+    : 0;
+  return `⏱ ${safeSeconds}s`;
+}
+
 // Lets Node.js tests load this file. Browsers ignore this block.
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { shuffle, isCorrect, calculatePercentage, getGrade, getFeedbackMessage };
+  module.exports = { shuffle, isCorrect, calculatePercentage, getGrade, getFeedbackMessage, formatTimeLeft };
 }
